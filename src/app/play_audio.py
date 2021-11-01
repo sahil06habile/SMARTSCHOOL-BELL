@@ -8,7 +8,7 @@ last_play_time = ""
 
 player = Player(busy_pin=Pin(4))
 
-ATTR_TYPE = None
+ATTR_TYPE = "shared"
 
 
 
@@ -39,43 +39,53 @@ def play_audio(timer_0):
     curr_time, curr_day,curr_date = get_curr_time()
     print('current time is ', curr_time, 'and day is: ',curr_day)
     time_table = get_time_table()
-    if curr_day in time_table:
-        data = time_table[curr_day]
-        print("Data found for {}".format(curr_day))   
-        for key,value in data.items():
-            if last_play_time != curr_day + curr_time:
-                if data[key]['time'] == curr_time:
-                    print("bell is ringing for {}".format(key),'and day is: ', curr_day)
-                    for i in range(data[key]['count']):
-                        if data[key]['isSpecialBell']:
-                            player.play(0,1)
-                            while player.playing():
-                                sleep(0.1)
-                        else:
-                            player.play(0,0)
-                            while player.playing():
-                                sleep(0.1)
-                    last_play_time = curr_day + curr_time
-            else:
-                print("Bell already played for {}".format(last_play_time), 'and day is: ', curr_day)
-                return
-    if curr_date in time_table:
-        data = time_table[curr_date]
-        print("Data found for {}".format(curr_date))   
-        for key,value in data.items():
-            if last_play_time != curr_date + curr_time:
-                if data[key]['time'] == curr_time:
-                    print("bell is ringing for {}".format(key),'and date is: ', curr_date)
-                    for i in range(data[key]['count']):
-                        if data[key]['isSpecialBell']:
-                            player.play(0,1)
-                            while player.playing():
-                                sleep(0.1)
-                        else:
-                            player.play(0,0)
-                            while player.playing():
-                                sleep(0.1)
-                    last_play_time = curr_date + curr_time
-            else:
-                print("Bell already played for {}".format(last_play_time), 'and date is: ', curr_date)
-                return
+    sdata = time_table[ATTR_TYPE]
+    if sdata['isPaused']== False:
+        if curr_day in time_table[ATTR_TYPE]:
+            data = time_table[ATTR_TYPE][curr_day]
+            print("Data found for {}".format(curr_day))   
+            for key,value in data.items():
+                if last_play_time != curr_day + curr_time:
+                    if data[key]['time'] == curr_time:
+                        print("bell is ringing for {}".format(key),'and day is: ', curr_day)
+                        for i in range(data[key]['count']):
+                            if data[key]['isSpecialBell']:
+                                player.play(0,1)
+                                while player.playing():
+                                    sleep(0.1)
+                            else:
+                                player.play(0,0)
+                                while player.playing():
+                                    sleep(0.1)
+                        last_play_time = curr_day + curr_time
+                else:
+                    print("Bell already played for {}".format(last_play_time), 'and day is: ', curr_day)
+                    return
+    else:
+        print("Bell is Paused")
+        
+    sdata = time_table[ATTR_TYPE]
+    if sdata['isPaused']== False:
+        if curr_date in time_table[ATTR_TYPE]:
+            data = time_table[ATTR_TYPE][curr_date]
+            print("Data found for {}".format(curr_date))   
+            for key,value in data.items():
+                if last_play_time != curr_date + curr_time:
+                    if data[key]['time'] == curr_time:
+                        print("bell is ringing for {}".format(key),'and date is: ', curr_date)
+                        for i in range(data[key]['count']):
+                            if data[key]['isSpecialBell']:
+                                player.play(0,1)
+                                while player.playing():
+                                    sleep(0.1)
+                            else:
+                                player.play(0,0)
+                                while player.playing():
+                                    sleep(0.1)
+                        last_play_time = curr_date + curr_time
+
+        else:
+            print("Bell already played for {}".format(last_play_time), 'and date is: ', curr_date)
+            return
+    else:
+        print("Bell is Paused")

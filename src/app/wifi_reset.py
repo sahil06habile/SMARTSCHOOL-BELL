@@ -6,9 +6,10 @@ from .led import blink
 
 def delete_file():
     try:
+        # os.remove('wifi.dat')
         wifimanager.start()
     except OSError:
-        print("wifi.dat file not available")
+        print("Couldn't able to shift wifi")
 
 def delete_wifi():
     push_button = Pin(15, Pin.IN)

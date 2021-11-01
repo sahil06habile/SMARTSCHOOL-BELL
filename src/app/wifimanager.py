@@ -3,6 +3,7 @@ import socket,gc
 import ure
 import time
 import ujson as json
+from .led import blink
 
 ap_ssid = "Smart Bell"
 ap_password = "password"
@@ -17,7 +18,7 @@ server_socket = None
 
 def get_data_status():
     try:
-        f = open('time-table.json','r')
+        f = open('mqtt-time-table.json','r')
         data = f.read()
         f.close()
         if len(data) > 0:
@@ -124,6 +125,7 @@ def do_connect(ssid, password):
         print('.', end='')
     if connected:
         print('\nConnected. Network config: ', wlan_sta.ifconfig())
+        blink.BLUE_color()
     else:
         wlan_sta.disconnect()
         print('\nFailed. Not Connected to: ' + ssid)
@@ -172,7 +174,7 @@ def handle_configure(client,request):
             profiles = {}
         profiles[ssid] = password
         write_profiles(profiles)
-        time.sleep(5)
+        time.sleep(10)
         return True
     else:
         response = {"message": "Connection Failed",
@@ -226,8 +228,8 @@ def start(port=80):
     while True:
         if wlan_sta.isconnected():
             # stop AP mode to save energy
-            time.sleep(15)
-            wlan_ap.active(False)
+            time.sleep(10)
+            #wlan_ap.active(False)
             return True
 
         client, addr = server_socket.accept()
