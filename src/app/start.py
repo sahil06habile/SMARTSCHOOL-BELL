@@ -16,7 +16,7 @@ def boot():
     delete_wifi()
     player = Player (busy_pin=Pin(4))
     player.play(1,0)
-    print(player.playing())
+    # print(player.playing())
     while player.playing():
         sleep(0.1)
 
@@ -40,7 +40,6 @@ def boot():
             response = urequests.get("http://clients3.google.com/generate_204")
             print(response.status_code)
             if response.status_code == 204:  
-                # print("online")
                 time_set()
                 print("Time set")
         except OSError as e:

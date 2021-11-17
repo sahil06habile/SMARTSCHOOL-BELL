@@ -113,12 +113,10 @@ def fetching_data(timer_2):
                     if response.status_code == 204:  
                             print("online")
                             try:
-                                new_message = client.check_msg()
+                                client.check_msg()
                                 sleep(1)  
                             except OSError as e:
                                 print("Exception occureed in check_msg()",str(e))
-                            print("CHECK mSG iS",new_message)
-                            time.sleep(1)
                             print("Data saved")
                     else:
                         print("NO Internet")

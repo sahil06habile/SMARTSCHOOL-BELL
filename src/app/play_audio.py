@@ -8,9 +8,7 @@ last_play_time = ""
 
 player = Player(busy_pin=Pin(4))
 
-ATTR_TYPE = "shared"
-
-
+ATTR_TYPE = 'shared'
 
 def get_curr_time():
     ds = time_get()
@@ -63,7 +61,6 @@ def play_audio(timer_0):
                     return
     else:
         print("Bell is Paused")
-        
     sdata = time_table[ATTR_TYPE]
     if sdata['isPaused']== False:
         if curr_date in time_table[ATTR_TYPE]:
@@ -83,9 +80,8 @@ def play_audio(timer_0):
                                 while player.playing():
                                     sleep(0.1)
                         last_play_time = curr_date + curr_time
-
-        else:
-            print("Bell already played for {}".format(last_play_time), 'and date is: ', curr_date)
-            return
+                else:
+                    print("Bell already played for {}".format(last_play_time), 'and date is: ', curr_date)
+                    return
     else:
         print("Bell is Paused")
